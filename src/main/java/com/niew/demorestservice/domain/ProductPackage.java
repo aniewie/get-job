@@ -1,9 +1,9 @@
 package com.niew.demorestservice.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ProductPackage {
@@ -16,12 +16,20 @@ public class ProductPackage {
 
     private String description;
 
-    private BigDecimal price;
+    private Long price;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "productPackageId")
+    private List<Product> products = new ArrayList<>();
 
     public ProductPackage(){};
 
-    public ProductPackage(String name) {
+    public ProductPackage(String name, String description, List<Product> products) {
         this.name = name;
+        this.description = description;
+        this.price = price;
+        this.products = products;
+        this.price = products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();
     }
     public Long getId() {
         return id;
@@ -29,5 +37,17 @@ public class ProductPackage {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 }

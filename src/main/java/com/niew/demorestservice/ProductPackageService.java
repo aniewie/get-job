@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductPackageService {
 
     List<ProductPackageData> listAllPackages();
+
+    ProductPackageData retrievePackage(Long id, String currency);
 }

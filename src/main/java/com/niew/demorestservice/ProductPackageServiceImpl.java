@@ -18,7 +18,13 @@ public class ProductPackageServiceImpl implements ProductPackageService {
 
     @Override
     public List<ProductPackageData> listAllPackages() {
-        List<ProductPackage> result = repository.findAll();
-        return result.stream().map(ProductPackageConverter::convertToDTO).collect(toList());
+        List<ProductPackage> list = repository.findAll();
+        return list.stream().map(ProductPackageConverter::convertToDTO).collect(toList());
+    }
+    @Override
+    public ProductPackageData retrievePackage(Long id, String currency) {
+        ProductPackage entity = this.repository.findProductPackageById(id);
+        //TODO waluty
+        return ProductPackageConverter.convertToDTO(entity);
     }
 }

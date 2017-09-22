@@ -1,9 +1,12 @@
 package com.niew.demorestservice.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class ProductData {
 
     private int count;
 
+    @NotNull
     private String productId;
 
     private String name;

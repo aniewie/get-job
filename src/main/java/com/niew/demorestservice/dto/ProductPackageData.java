@@ -1,12 +1,17 @@
 package com.niew.demorestservice.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductPackageData {
 
-    private Long id;
+    private Long packageId;
 
+    @NotNull
     private String name;
 
     private String description;
@@ -15,14 +20,16 @@ public class ProductPackageData {
 
     private String currency;
 
+    @NotEmpty
+    @Valid
     private List<ProductData> products = new ArrayList<>();
 
-    public Long getId() {
-        return id;
+    public Long getPackageId() {
+        return packageId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPackageId(Long packageId) {
+        this.packageId = packageId;
     }
 
     public String getName() {

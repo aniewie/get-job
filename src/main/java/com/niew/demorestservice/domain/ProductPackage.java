@@ -23,12 +23,15 @@ public class ProductPackage {
     private List<Product> products = new ArrayList<>();
 
     public ProductPackage(){};
-
     public ProductPackage(String name, String description, List<Product> products) {
+        this();
+        this.update(name, description, products);
+    }
+    public void update(String name, String description, List<Product> products) {
         this.name = name;
         this.description = description;
-        this.price = price;
-        this.products = products;
+        this.products.clear();
+        this.products.addAll(products);
         this.price = products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();
     }
     public Long getId() {

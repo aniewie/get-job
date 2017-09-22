@@ -31,10 +31,16 @@ public class ProductPackageController {
     ProductPackageData deletePackage(@PathVariable("id") Long id) {
         return service.deletePackage(id);
     }
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     ProductPackageData createPackage(@RequestBody @Valid ProductPackageData data) {
         return service.createPackage(data);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    ProductPackageData update(@PathVariable("id") Long id, @RequestBody @Valid ProductPackageData data) {
+        return service.updatePackage(id, data);
     }
 
     @ExceptionHandler

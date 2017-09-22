@@ -13,4 +13,6 @@ public interface ProductPackageService {
     ProductPackageData deletePackage(Long id);
 
     ProductPackageData createPackage(ProductPackageData dto);
+
+    ProductPackageData updatePackage(Long id, ProductPackageData dto);
 }

@@ -21,6 +21,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductData getProductById(String id) {
-        return this.restTemplate.getForObject("https://product-service.herokuapp.com/api/v1/products/{id}", ProductData.class, id);
+        ProductData product = this.restTemplate.getForObject("https://product-service.herokuapp.com/api/v1/products/{id}", ProductData.class, id);
+        product.setProductId(id);
+        return product;
     }
 }

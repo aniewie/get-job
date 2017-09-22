@@ -21,7 +21,8 @@ public class ProductPackageConverter {
     }
     public static ProductPackage convertFromDto(ProductPackageData dto) {
         List<Product> products = dto.getProducts().stream().map(ProductPackageConverter::convertProductFromDTO).collect(Collectors.toList());
-        ProductPackage entity = new ProductPackage(dto.getName(), dto.getDescription(), products);
+        ProductPackage entity = new ProductPackage();
+        entity.update(dto.getName(), dto.getDescription(), products);
         return entity;
     }
     private static ProductData convertProductToDTO(Product product) {
@@ -32,7 +33,7 @@ public class ProductPackageConverter {
         dto.setCount(product.getCount());
         return dto;
     }
-    private static Product convertProductFromDTO(ProductData dto) {
+    public static Product convertProductFromDTO(ProductData dto) {
         Product entity = new Product(dto.getCount(), dto.getProductId(), dto.getName(), dto.getUsdPrice());
         return entity;
     }

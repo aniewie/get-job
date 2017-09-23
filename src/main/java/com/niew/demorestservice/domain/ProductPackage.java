@@ -1,9 +1,12 @@
 package com.niew.demorestservice.domain;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
 public class ProductPackage {
@@ -27,12 +30,28 @@ public class ProductPackage {
         this();
         this.update(name, description, products);
     }
-    public void update(String name, String description, List<Product> products) {
+    public void update(String name, String description, List<Product> newProducts) {
         this.name = name;
         this.description = description;
-        this.products.clear();
-        this.products.addAll(products);
-        this.price = products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();
+        //this.products.clear();
+        //this.products.addAll(newProducts);
+        Map<String, Product> oldProductsMap = this.products.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
+        Map<String, Product> newProductsMap = newProducts.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
+        for (Iterator<Product> iterator = this.products.iterator(); iterator.hasNext();) {
+            Product product = iterator.next();
+            if (!newProductsMap.containsKey(product.getProductId())) {
+                iterator.remove();
+            }
+        }
+        for (Product newProduct : newProducts) {
+            if (oldProductsMap.containsKey(newProduct.getProductId())) {
+                Product oldProduct = oldProductsMap.get(newProduct.getProductId());
+                oldProduct.update(newProduct.getCount(), newProduct.getName(), newProduct.getUsdPrice());
+            } else {
+                this.products.add(newProduct);
+            }
+        }
+        this.price = this.products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();
     }
     public Long getId() {
         return id;

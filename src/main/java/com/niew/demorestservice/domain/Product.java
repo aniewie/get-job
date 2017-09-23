@@ -3,8 +3,6 @@ package com.niew.demorestservice.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 
 @Entity
 public class Product {
@@ -24,8 +22,11 @@ public class Product {
     public Product() {}
 
     public Product(int count, String productId, String name, Long usdPrice) {
-        this.count = count;
         this.productId = productId;
+        this.update(count, name, usdPrice);
+    }
+    public void update(int count, String name, Long usdPrice) {
+        this.count = count;
         this.name = name;
         this.usdPrice = usdPrice;
     }

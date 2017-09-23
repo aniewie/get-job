@@ -1,18 +1,19 @@
 package com.niew.demorestservice.service;
 
-import com.niew.demorestservice.dto.ProductPackageData;
+import com.niew.demorestservice.dto.ProductPackageDataIn;
+import com.niew.demorestservice.dto.ProductPackageDataOut;
 
 import java.util.List;
 
 public interface ProductPackageService {
 
-    List<ProductPackageData> listAllPackages();
+    List<ProductPackageDataOut> listAllPackages();
 
-    ProductPackageData retrievePackage(Long id, String currency);
+    ProductPackageDataOut retrievePackage(Long id, String currency);
 
-    ProductPackageData deletePackage(Long id);
+    ProductPackageDataOut deletePackage(Long id);
 
-    ProductPackageData createPackage(ProductPackageData dto);
+    ProductPackageDataOut createPackage(ProductPackageDataIn dto);
 
-    ProductPackageData updatePackage(Long id, ProductPackageData dto);
+    ProductPackageDataOut updatePackage(Long id, ProductPackageDataIn dto);
 }

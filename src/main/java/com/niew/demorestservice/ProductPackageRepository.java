@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ProductPackageRepository extends Repository<ProductPackage, Long> {
 
-    @Query("select pp from ProductPackage pp join fetch pp.products")
+    @Query("select pp from ProductPackage pp left join fetch pp.products")
     List<ProductPackage> findAll();
 
     Optional<ProductPackage> findOne(Long id);

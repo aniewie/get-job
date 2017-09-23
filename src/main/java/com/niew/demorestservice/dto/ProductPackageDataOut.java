@@ -1,35 +1,29 @@
 package com.niew.demorestservice.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductPackageData {
+public class ProductPackageDataOut {
 
-    private Long packageId;
+    private Long id;
 
-    @NotNull
     private String name;
 
     private String description;
 
-    private Long priceInCurrency;
+    private BigDecimal priceInCurrency;
 
     private String currency;
 
-    @NotEmpty
-    @Valid
     private List<ProductData> products = new ArrayList<>();
 
-    public Long getPackageId() {
-        return packageId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPackageId(Long packageId) {
-        this.packageId = packageId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,11 +42,11 @@ public class ProductPackageData {
         this.description = description;
     }
 
-    public Long getPriceInCurrency() {
+    public BigDecimal getPriceInCurrency() {
         return priceInCurrency;
     }
 
-    public void setPriceInCurrency(Long priceInCurrency) {
+    public void setPriceInCurrency(BigDecimal priceInCurrency) {
         this.priceInCurrency = priceInCurrency;
     }
 

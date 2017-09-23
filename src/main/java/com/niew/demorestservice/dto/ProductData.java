@@ -1,9 +1,11 @@
 package com.niew.demorestservice.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class ProductData {
 
+    @Min(1)
     private int count;
 
     @NotNull
@@ -11,7 +13,7 @@ public class ProductData {
 
     private String name;
 
-    private Long usdPrice;
+    private Long priceInUsdCents;
 
     public int getCount() {
         return count;
@@ -37,11 +39,11 @@ public class ProductData {
         this.name = name;
     }
 
-    public Long getUsdPrice() {
-        return usdPrice;
+    public Long getPriceInUsdCents() {
+        return priceInUsdCents;
     }
 
-    public void setUsdPrice(Long usdPrice) {
-        this.usdPrice = usdPrice;
+    public void setPriceInUsdCents(Long priceInUsdCents) {
+        this.priceInUsdCents = priceInUsdCents;
     }
 }

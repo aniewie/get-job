@@ -35,6 +35,7 @@ public class ProductPackage {
         this.description = description;
         //this.products.clear();
         //this.products.addAll(newProducts);
+        //TODO - komentarz, czemu tak
         Map<String, Product> oldProductsMap = this.products.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
         Map<String, Product> newProductsMap = newProducts.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
         for (Iterator<Product> iterator = this.products.iterator(); iterator.hasNext();) {

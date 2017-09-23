@@ -9,7 +9,7 @@ public class Product {
 
     @Id
     @GeneratedValue
-    private Long productInPackageId;
+    private Long id;
 
     private int count;
 

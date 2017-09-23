@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private final RestTemplate restTemplate;
 
     public ProductServiceImpl(RestTemplateBuilder restTemplateBuilder, @Value("${application.productEndpoint.userName}") String userName, @Value("${application.productEndpoint.password}") String password) {
-        this.restTemplate = restTemplateBuilder.basicAuthorization(userName, password).rootUri(null).build();
+        this.restTemplate = restTemplateBuilder.basicAuthorization(userName, password).build();
     }
 
     @Override

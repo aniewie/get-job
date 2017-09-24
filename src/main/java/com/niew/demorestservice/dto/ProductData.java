@@ -15,6 +15,15 @@ public class ProductData {
 
     private Long usdPrice;
 
+    public ProductData() {}
+
+    public ProductData(int count, String productId, String name, Long usdPrice) {
+        this.count = count;
+        this.productId = productId;
+        this.name = name;
+        this.usdPrice = usdPrice;
+    }
+
     public int getCount() {
         return count;
     }

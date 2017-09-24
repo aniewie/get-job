@@ -26,8 +26,12 @@ public class ProductPackage {
     private List<Product> products = new ArrayList<>();
 
     public ProductPackage(){};
+
+    public ProductPackage(Long id, String name, String description, List<Product> products) {
+        this(name, description, products);
+        this.id = id;
+    }
     public ProductPackage(String name, String description, List<Product> products) {
-        this();
         this.update(name, description, products);
     }
     public void update(String name, String description, List<Product> newProducts) {
@@ -56,7 +60,7 @@ public class ProductPackage {
                 oldProduct.update(newProduct.getCount(), newProduct.getName(), newProduct.getUsdPrice());
             } else {
                 //adding new product
-                this.products.add(newProduct);
+                this.products.add(new Product(newProduct));
             }
         }
         this.price = this.products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();

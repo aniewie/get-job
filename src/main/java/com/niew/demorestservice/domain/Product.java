@@ -20,7 +20,10 @@ public class Product {
     private Long usdPrice;
 
     public Product() {}
-
+    public Product(Product product) {
+        this(product.count, product.productId, product.name, product.usdPrice);
+        this.id = product.id;
+    }
     public Product(int count, String productId, String name, Long usdPrice) {
         this.productId = productId;
         this.update(count, name, usdPrice);
@@ -45,4 +48,5 @@ public class Product {
     public Long getUsdPrice() {
         return usdPrice;
     }
+
 }

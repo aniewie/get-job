@@ -2,6 +2,7 @@ package com.niew.demorestservice;
 
 import com.niew.demorestservice.dto.ProductPackageDataIn;
 import com.niew.demorestservice.dto.ProductPackageDataOut;
+import com.niew.demorestservice.exception.ExchangeRateNotFoundException;
 import com.niew.demorestservice.exception.PackageNotFoundException;
 import com.niew.demorestservice.service.ProductPackageService;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class ProductPackageController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    ProductPackageDataOut update(@PathVariable("id") Long id, @RequestBody @Valid ProductPackageDataIn data) {
+    ProductPackageDataOut updatePackage(@PathVariable("id") Long id, @RequestBody @Valid ProductPackageDataIn data) {
         return service.updatePackage(id, data);
     }
 

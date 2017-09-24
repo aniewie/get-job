@@ -11,6 +11,13 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ProductPackageDataIn {
 
+    public ProductPackageDataIn() {}
+    public ProductPackageDataIn(String name, String description, List<ProductData> products) {
+        this.name = name;
+        this.description = description;
+        this.products = products;
+    }
+
     @NotNull
     private String name;
 

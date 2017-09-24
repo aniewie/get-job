@@ -40,8 +40,8 @@ public class ProductPackageServiceImpl implements ProductPackageService {
     @Override
     public ProductPackageDataOut retrievePackage(Long id, String currency) {
         ProductPackage entity = this.findPackageById(id);
-        Pair<BigDecimal,String> exchangeRateAndCurr = this.exchangeRateService.getExchangeRate(this.defaultCurrency, currency);
-        return ProductPackageConverter.convertToDTO(entity, exchangeRateAndCurr.getFirst(), exchangeRateAndCurr.getSecond());
+        BigDecimal exchangeRate = this.exchangeRateService.getExchangeRate(this.defaultCurrency, currency);
+        return ProductPackageConverter.convertToDTO(entity, exchangeRate, currency);
     }
     @Override
     public ProductPackageDataOut deletePackage(Long id) {

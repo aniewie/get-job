@@ -9,6 +9,7 @@ import com.niew.demorestservice.dto.ProductPackageDataOut;
 import com.niew.demorestservice.exception.PackageNotFoundException;
 import com.niew.demorestservice.util.ProductPackageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -29,45 +30,47 @@ public class ProductPackageServiceImpl implements ProductPackageService {
     private ProductService productService;
     @Autowired
     private ExchangeRateService exchangeRateService;
+    @Value("${application.defaultCurrency}")
+    private String defaultCurrency;
 
     @Override
     public List<ProductPackageDataOut> listAllPackages() {
         Collection<ProductPackage> list = new LinkedHashSet<>(repository.findAll());
-        return list.stream().map(p -> ProductPackageConverter.convertToDTO(p, BigDecimal.ONE, "USD")).collect(toList());
+        return list.stream().map(p -> ProductPackageConverter.convertToDTO(p, BigDecimal.ONE, this.defaultCurrency)).collect(toList());
     }
     @Override
     public ProductPackageDataOut retrievePackage(Long id, String currency) {
         ProductPackage entity = this.findPackageById(id);
-        Pair<BigDecimal,String> exchangeRateAndCurr = this.exchangeRateService.getExchangeRate("USD", currency);
+        Pair<BigDecimal,String> exchangeRateAndCurr = this.exchangeRateService.getExchangeRate(this.defaultCurrency, currency);
         return ProductPackageConverter.convertToDTO(entity, exchangeRateAndCurr.getFirst(), exchangeRateAndCurr.getSecond());
     }
     @Override
     public ProductPackageDataOut deletePackage(Long id) {
         ProductPackage entity = this.findPackageById(id);
         repository.delete(entity);
-        return ProductPackageConverter.convertToDTO(entity);
+        return ProductPackageConverter.convertToDTO(entity, BigDecimal.ONE, this.defaultCurrency);
     }
     @Override
     public ProductPackageDataOut createPackage(ProductPackageDataIn dto) {
-        dto.getProducts().stream().forEach(this::updateProductDataWithValuesFromExtSvc);
-        ProductPackage entity = repository.save(ProductPackageConverter.convertFromDto(dto));
-        return ProductPackageConverter.convertToDTO(entity);
+        List<Product> products = ProductPackageConverter.convertProductsFromDtoGrouping(dto.getProducts());
+        products.stream().forEach(this::updateProductDataWithValuesFromExtSvc);
+        ProductPackage entity = new ProductPackage();
+        entity.update(dto.getName(), dto.getDescription(), products);
+        entity = repository.save(entity);
+        return ProductPackageConverter.convertToDTO(entity, BigDecimal.ONE, this.defaultCurrency);
     }
     @Override
     public ProductPackageDataOut updatePackage(Long id, ProductPackageDataIn dto) {
-        List<Product> products = dto.getProducts().stream().map(product ->
-        {   this.updateProductDataWithValuesFromExtSvc(product);
-            return ProductPackageConverter.convertProductFromDTO(product);
-        }).collect(Collectors.toList());
+        List<Product> products = ProductPackageConverter.convertProductsFromDtoGrouping(dto.getProducts());
+        products.stream().forEach(this::updateProductDataWithValuesFromExtSvc);
         ProductPackage entity = this.findPackageById(id);
         entity.update(dto.getName(), dto.getDescription(), products);
         entity = repository.save(entity);
-        return ProductPackageConverter.convertToDTO(entity);
+        return ProductPackageConverter.convertToDTO(entity, BigDecimal.ONE, this.defaultCurrency);
     }
-    void updateProductDataWithValuesFromExtSvc(ProductData product) {
+    void updateProductDataWithValuesFromExtSvc(Product product) {
         ProductData externalProduct = this.productService.getProductById(product.getProductId());
-        product.setName(externalProduct.getName());
-        product.setPriceInUsdCents(externalProduct.getPriceInUsdCents());
+        product.update(product.getCount(), externalProduct.getName(),externalProduct.getUsdPrice());
     }
     ProductPackage findPackageById(Long packageId) {
         return repository.findOne(packageId).orElseThrow(() -> new PackageNotFoundException("No package with id: " + packageId.toString()));

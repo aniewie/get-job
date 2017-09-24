@@ -13,7 +13,7 @@ public class ProductData {
 
     private String name;
 
-    private Long priceInUsdCents;
+    private Long usdPrice;
 
     public int getCount() {
         return count;
@@ -39,11 +39,11 @@ public class ProductData {
         this.name = name;
     }
 
-    public Long getPriceInUsdCents() {
-        return priceInUsdCents;
+    public Long getUsdPrice() {
+        return usdPrice;
     }
 
-    public void setPriceInUsdCents(Long priceInUsdCents) {
-        this.priceInUsdCents = priceInUsdCents;
+    public void setUsdPrice(Long usdPrice) {
+        this.usdPrice = usdPrice;
     }
 }

@@ -1,0 +1,1 @@
+Demo restful service for managing packages of products

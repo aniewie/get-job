@@ -44,7 +44,9 @@ public class ProductPackage {
     public void update(String name, String description, List<Product> newProducts) {
         this.name = name;
         this.description = description;
-        //TODO komentarz
+        //ProductInPackage Ids are not serialized and deserialized, so we don't receive them back by update.
+        //Plus API allows duplicated products in package. The code matches new products to old ones (two collections difference).
+        //This could be replaced by clearing collection and putting new products, but would cause deletes by each package update
         Map<String, Product> oldProductsMap = this.products.stream().collect(Collectors.toMap(Product::getProductId, Function.identity()));
         Map<String, Product> newProductsMap = null;
         try {

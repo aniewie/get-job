@@ -13,9 +13,19 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class converting DTO to entity objects and the othet way round
+ */
 public class ProductPackageConverter {
     private static final BigDecimal HUNDRED = new BigDecimal("100");
 
+    /**
+     * Converts package entity to DTO recalculating its price in USD cents to given currency by given currencyExchangeRate
+     * @param productPackage - domain entity of a package
+     * @param currencyExchangeRate - exchange rate from USD to currency
+     * @param currency - currency
+     * @return - DTO of a package that will be returned via API
+     */
     public static ProductPackageDataOut convertToDTO(ProductPackage productPackage, BigDecimal currencyExchangeRate, String currency) {
         ProductPackageDataOut dto = new ProductPackageDataOut();
         dto.setId(productPackage.getId());
@@ -27,6 +37,11 @@ public class ProductPackageConverter {
         return dto;
     }
 
+    /**
+     * Converts single product in a package from JPA entity to DTO
+     * @param product - JPA entity of a product in package
+     * @return - DTO of a product
+     */
     private static ProductData convertProductToDTO(Product product) {
         ProductData dto = new ProductData();
         dto.setProductId(product.getProductId());
@@ -35,6 +50,13 @@ public class ProductPackageConverter {
         dto.setCount(product.getCount());
         return dto;
     }
+
+    /**
+     * Converts list of dto with products to a list of JPA entities accumulating products of the same type to one item
+     * The resulting item will have the number of items (count) being a sum of counts of all products of the same kind (productId)
+     * @param products - list of DTOs with products, duplications allowed
+     * @return - list of JPA entities, no duplications (duplications summed)
+     */
     public static List<Product> convertProductsFromDtoGrouping(List<ProductData> products) {
         Map<String, Integer> productsCountById = products.stream().collect(Collectors.groupingBy(ProductData::getProductId,
                 Collectors.summingInt(ProductData::getCount)));
@@ -42,6 +64,13 @@ public class ProductPackageConverter {
         List<Product> result = productsById.values().stream().map(p -> ProductPackageConverter.convertProductFromDTO(p, productsCountById.get(p.getProductId()))).collect(Collectors.toList());
         return result;
     }
+
+    /**
+     * Converts single product from dto to JPA entity, setting resulting count to count from parameter
+     * @param dto
+     * @param count
+     * @return
+     */
     public static Product convertProductFromDTO(ProductData dto, int count) {
         Product entity = new Product(count, dto.getProductId(), dto.getName(), dto.getUsdPrice());
         return entity;

@@ -39,6 +39,7 @@ public class ProductPackageServiceImpl implements ProductPackageService {
      */
     @Override
     public List<ProductPackageDataOut> listAllPackages() {
+        //The line below removes duplicated object resulting from join fetch (ugly solution, but concise)
         Collection<ProductPackage> list = new LinkedHashSet<>(repository.findAll());
         return list.stream().map(p -> ProductPackageConverter.convertToDTO(p, BigDecimal.ONE, this.defaultCurrency)).collect(toList());
     }

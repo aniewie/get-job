@@ -10,4 +10,4 @@ This is a Maven project and Spring Boot app. Download source code and run ./mvnw
 
 You can list and test all available methods using swagger UI http://localhost:8080/swagger-ui.html#!/product-package-controller.
 It will show model of input parameters for POST and PUT requests.
-The application will some test data inserted (you should see some packages).
+The application will have some test data inserted (you should see some packages).

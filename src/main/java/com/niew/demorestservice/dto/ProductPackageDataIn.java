@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO for input parameters of /package API. Allows duplicated products (more than one item of the same productId)
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ProductPackageDataIn {
 

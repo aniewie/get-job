@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-
+/**
+ * Current exchange rate retrieval service
+ */
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 
@@ -24,6 +26,11 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    /**
+     * Returns current exchange rate for a pair of currencies (currencyFrom, currencyTo)
+     * Calls http://api.fixer.io/latest
+     * @see ExchangeRateService
+     * */
     @Override
     public BigDecimal getExchangeRate(String currencyFrom, String currencyTo) {
         BigDecimal resultRate = BigDecimal.ONE;

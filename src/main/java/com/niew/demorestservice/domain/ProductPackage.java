@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.reducing;
 
+/**
+ * Domain model for package of products
+ */
 @Entity
 public class ProductPackage {
 
@@ -18,9 +21,13 @@ public class ProductPackage {
     private String name;
 
     private String description;
-
+    /**
+     * Sum of prices of individual products sum(count*usdPrice)
+     */
     private Long price;
-
+    /**
+     * Products in a package (list of products of unique types, but each products holds info about count of items of that type in package)
+     */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "productPackageId")
     private List<Product> products = new ArrayList<>();

@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO for output parameters of /package API
+ */
 public class ProductPackageDataOut {
 
     private Long id;

@@ -1,4 +1,4 @@
-#Demo restful service for managing packages of products.
+# Demo restful service for managing packages of products.
 
 This is a Maven project and Spring Boot app. Download source code and run `./mvnw spring-boot:run` from the main folder.
 You can also build a jar with `./mvnw package` and run it on Java.
@@ -13,7 +13,7 @@ You can list and test all available methods using Swagger UI: http://localhost:8
 It will show the model of input parameters for the POST and PUT requests.
 The application will have some test data inserted (you should see some packages).
 
-#System assumptions
+# System assumptions
 
 * The list of products from Heroku serves as repository of valid product types.
 * Each package can contain any number of products (> 0) and different packages can contain the same products.

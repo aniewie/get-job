@@ -1,5 +1,6 @@
-package com.niew.demorestservice;
+package com.niew.demorestservice.service;
 
+import com.niew.demorestservice.ProductPackageRepository;
 import com.niew.demorestservice.domain.Product;
 import com.niew.demorestservice.domain.ProductPackage;
 import com.niew.demorestservice.dto.ProductData;
@@ -36,8 +37,10 @@ public class ProductPackageServiceTest {
     private static final Product PRODUCT_YYY = new Product(5, "YYY", "Lipstick", 12L);
     private static final ProductData PRODUCTD_YYY =  new ProductData(1, "YYY", "Lipstick", 12L);
     private static final ProductData PRODUCTD_ZZZ =  new ProductData(2, "ZZZ", "Volvo", 500L);
+    private static final ProductData PRODUCTD_AAA =  new ProductData(1, "AAA", "Sth", 5L);
     private static final ProductData PRODUCT_YYY_EXT =  new ProductData(0, "YYY", "Cheaper lipstick", 1L);
     private static final ProductData PRODUCT_ZZZ_EXT =  new ProductData(0, "ZZZ", "Better volvo", 501L);
+    private static final ProductData PRODUCT_AAA_EXT =  new ProductData(0, "AAA", null, null);
 
     @TestConfiguration
     static class ProductPackageServiceTestContextConfiguration {
@@ -89,10 +92,12 @@ public class ProductPackageServiceTest {
         //product XXX removed
         ProductData pdz = PRODUCTD_ZZZ; //added
         ProductData pdy = PRODUCTD_YYY; //updated count
-        ProductPackageDataIn packIn = new ProductPackageDataIn("pName2", "pDesc2", Arrays.asList(new ProductData[]{pdz, pdy}));
+        ProductData pda = PRODUCTD_AAA; //added (will have null price from ext system)
+        ProductPackageDataIn packIn = new ProductPackageDataIn("pName2", "pDesc2", Arrays.asList(new ProductData[]{pdz, pdy, pda}));
 
         when(repository.findOne(id)).thenReturn(Optional.of(pack));
         when(repository.save(isA(ProductPackage.class))).thenReturn(pack);
+        when(productService.getProductById("AAA")).thenReturn(PRODUCT_AAA_EXT);
         when(productService.getProductById("ZZZ")).thenReturn(PRODUCT_ZZZ_EXT);
         when(productService.getProductById("YYY")).thenReturn(PRODUCT_YYY_EXT);
 
@@ -101,13 +106,15 @@ public class ProductPackageServiceTest {
         ArgumentCaptor<ProductPackage> savedArgument = ArgumentCaptor.forClass(ProductPackage.class);
         verify(repository, times(1)).save(savedArgument.capture());
         ProductPackage savedPackage = savedArgument.getValue();
+        assertEquals(1003L, savedPackage.getPrice().longValue());
         assertEquals("pName2", savedPackage.getName());
-        assertEquals(2, savedPackage.getProducts().size());
+        assertEquals(3, savedPackage.getProducts().size());
         assertEquals(1, savedPackage.getProducts().get(0).getCount());
         assertEquals("YYY", savedPackage.getProducts().get(0).getProductId());
         assertEquals(1L, savedPackage.getProducts().get(0).getUsdPrice().longValue());
         assertEquals("ZZZ", savedPackage.getProducts().get(1).getProductId());
         assertEquals("Better volvo", savedPackage.getProducts().get(1).getName());
+        assertEquals(null, savedPackage.getProducts().get(2).getUsdPrice());
 
     }
 }

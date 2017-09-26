@@ -25,7 +25,10 @@ public class Product {
     private String productId;
 
     private String name;
-
+    /**
+     * Null price - I don'w know if it has any sense (can come like this from external source)
+     * I will leave it like these and treat as 0 by calculating package size
+     */
     private Long usdPrice;
 
     public Product() {}

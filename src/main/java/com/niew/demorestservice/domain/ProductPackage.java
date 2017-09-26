@@ -72,7 +72,7 @@ public class ProductPackage {
                 this.products.add(new Product(newProduct));
             }
         }
-        this.price = this.products.stream().mapToLong(product -> product.getCount() * product.getUsdPrice()).sum();
+        this.price = this.products.stream().mapToLong(product -> product.getCount() * Optional.ofNullable(product.getUsdPrice()).orElse(0L)).sum();
     }
     public Long getId() {
         return id;

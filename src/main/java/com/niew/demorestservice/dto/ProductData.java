@@ -1,7 +1,8 @@
 package com.niew.demorestservice.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * DTO for input and output from /package API and for retrieving types of products from product-service.herokuapp.com
@@ -11,7 +12,7 @@ public class ProductData {
     @Min(1)
     private int count;
 
-    @NotNull
+    @NotEmpty
     private String productId;
 
     private String name;

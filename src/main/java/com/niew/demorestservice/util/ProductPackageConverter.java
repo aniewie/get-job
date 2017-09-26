@@ -3,7 +3,6 @@ package com.niew.demorestservice.util;
 import com.niew.demorestservice.domain.Product;
 import com.niew.demorestservice.domain.ProductPackage;
 import com.niew.demorestservice.dto.ProductData;
-import com.niew.demorestservice.dto.ProductPackageDataIn;
 import com.niew.demorestservice.dto.ProductPackageDataOut;
 
 import java.math.BigDecimal;
@@ -31,7 +30,9 @@ public class ProductPackageConverter {
         dto.setId(productPackage.getId());
         dto.setName(productPackage.getName());
         dto.setDescription(productPackage.getDescription());
-        dto.setPriceInCurrency(currencyExchangeRate.multiply(BigDecimal.valueOf(productPackage.getPrice())).divide(HUNDRED, 2, BigDecimal.ROUND_HALF_UP));
+        if (currencyExchangeRate != null && productPackage.getPrice() != null) {
+            dto.setPriceInCurrency(currencyExchangeRate.multiply(BigDecimal.valueOf(productPackage.getPrice())).divide(HUNDRED, 2, BigDecimal.ROUND_HALF_UP));
+        }
         dto.setCurrency(currency);
         dto.getProducts().addAll(productPackage.getProducts().stream().map(ProductPackageConverter::convertProductToDTO).collect(Collectors.toList()));
         return dto;

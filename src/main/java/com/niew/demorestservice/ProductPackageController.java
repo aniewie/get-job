@@ -2,7 +2,6 @@ package com.niew.demorestservice;
 
 import com.niew.demorestservice.dto.ProductPackageDataIn;
 import com.niew.demorestservice.dto.ProductPackageDataOut;
-import com.niew.demorestservice.exception.ExchangeRateNotFoundException;
 import com.niew.demorestservice.exception.PackageNotFoundException;
 import com.niew.demorestservice.service.ProductPackageService;
 import org.slf4j.Logger;
